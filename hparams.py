@@ -340,30 +340,9 @@ hparams = tf.contrib.training.HParams(
 	#Eval/Debug parameters
 	#Eval sentences (if no eval text file was specified during synthesis, these sentences are used for eval)
 	sentences = [
-	# From July 8, 2017 New York Times:
-	'Scientists at the CERN laboratory say they have discovered a new particle.',
-	'There\'s a way to measure the acute emotional intelligence that has never gone out of style.',
-	'President Trump met with other leaders at the Group of 20 conference.',
-	'The Senate\'s bill to repeal and replace the Affordable Care Act is now imperiled.',
-	# From Google's Tacotron example page:
-	'Generative adversarial network or variational auto-encoder.',
-	'Basilar membrane and otolaryngology are not auto-correlations.',
-	'He has read the whole thing.',
-	'He reads books.',
-	'He thought it was time to present the present.',
-	'Thisss isrealy awhsome.',
-	'The big brown fox jumps over the lazy dog.',
-	'Did the big brown fox jump over the lazy dog?',
-	"Peter Piper picked a peck of pickled peppers. How many pickled peppers did Peter Piper pick?",
-	"She sells sea-shells on the sea-shore. The shells she sells are sea-shells I'm sure.",
-	"Tajima Airport serves Toyooka.",
-	#From The web (random long utterance)
-	# 'On offering to help the blind man, the man who then stole his car, had not, at that precise moment, had any evil intention, quite the contrary, \
-	# what he did was nothing more than obey those feelings of generosity and altruism which, as everyone knows, \
-	# are the two best traits of human nature and to be found in much more hardened criminals than this one, a simple car-thief without any hope of advancing in his profession, \
-	# exploited by the real owners of this enterprise, for it is they who take advantage of the needs of the poor.',
-	# A final Thank you note!
-	'Thank you so much for your support!',
+	'wo3 jiao4 liang2 gong1 chun1 ri4   bi4 ye4 yu2 dong1 zhong1   dui4 pu3 tong1 de5 ren2 lei4 mei2 you3 xing4 qv5',
+	'wo jiao4 ji2 liang2 ji2 ying3   san1 shi2 ba1 sui4   zhu4 zai4 du4 wang2 ting1 bei3 bu4 de5 bie2 shu4 qv1',
+	'duo1 nian2 yi3 hou4   ao4 lei2 li3 ya4 nuo4 shang4 xiao4 zhan4 zai4 xing2 xing2 dui4 qian2   zhun3 hui4 xiang3 qi3 fu4 qin5 dai4 ta1 can1 guan1 bing1 kuai4 de5 na4 ge5 yao2 yuan3 de5 xia4 wu3',
 	],
 
 	#Wavenet Debug
