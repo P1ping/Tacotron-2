@@ -7,13 +7,13 @@ from datasets import audio
 from wavenet_vocoder.util import is_mulaw, is_mulaw_quantize, mulaw, mulaw_quantize
 
 
-def build_from_path(hparams, input_dirs, mel_dir, linear_dir, wav_dir, n_jobs=12, tqdm=lambda x: x):
+def build_from_path(transcript_path, hparams, mel_dir, linear_dir, wav_dir, n_jobs=1, tqdm=lambda x: x):
 	"""
 	Preprocesses the speech dataset from a gven input path to given output directories
 
 	Args:
+		- transcript_path: path of the transcript file that contains lines of <wav_path|text> pairs
 		- hparams: hyper parameters
-		- input_dir: input directory that contains the files to prerocess
 		- mel_dir: output directory of the preprocessed speech mel-spectrogram dataset
 		- linear_dir: output directory of the preprocessed speech linear-spectrogram dataset
 		- wav_dir: output directory of the preprocessed speech audio dataset
@@ -28,17 +28,12 @@ def build_from_path(hparams, input_dirs, mel_dir, linear_dir, wav_dir, n_jobs=12
 	# optimization purposes and it can be omited
 	executor = ProcessPoolExecutor(max_workers=n_jobs)
 	futures = []
-	index = 1
-	for input_dir in input_dirs:
-		with open(os.path.join(input_dir, 'metadata.csv'), encoding='utf-8') as f:
-			for line in f:
-				parts = line.strip().split('|')
-				basename = parts[0]
-				wav_path = os.path.join(input_dir, 'wavs', '{}.wav'.format(basename))
-				text = parts[2]
-				futures.append(executor.submit(partial(_process_utterance, mel_dir, linear_dir, wav_dir, basename, wav_path, text, hparams)))
-				index += 1
-
+	with open(transcript_path, mode='r', encoding='utf-8') as f:
+		for line in f:
+			wav_path, text = line.strip().split('|')
+			wav_name = wav_path.split('/')[-1].split('.')[0]
+			speaker_id = wav_name.split('_')[0]
+			futures.append(executor.submit(partial(_process_utterance, mel_dir, linear_dir, wav_dir, wav_name, wav_path, text, hparams)))
 	return [future.result() for future in tqdm(futures) if future.result() is not None]
 
 
