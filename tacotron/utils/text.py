@@ -2,6 +2,7 @@ import re
 
 from . import cleaners
 from .symbols import symbols
+from hparams import hparams
 
 # Mappings from symbol to numeric ID and vice versa:
 _symbol_to_id = {s: i for i, s in enumerate(symbols)}
@@ -19,22 +20,26 @@ def text_to_sequence(text, cleaner_names):
 
     Args:
       text: string to convert to a sequence
+      symbol_set: set of symbols
       cleaner_names: names of the cleaner functions to run the text through
 
     Returns:
       List of integers corresponding to the symbols in the text
   '''
-  sequence = []
 
   # Check for curly braces and treat their contents as ARPAbet:
-  while len(text):
-    m = _curly_re.match(text)
-    if not m:
-      sequence += _symbols_to_sequence(_clean_text(text, cleaner_names))
-      break
-    sequence += _symbols_to_sequence(_clean_text(m.group(1), cleaner_names))
-    sequence += _arpabet_to_sequence(m.group(2))
-    text = m.group(3)
+  if hparams.symbol_set == 'character':
+    sequence = []
+    while len(text):
+      m = _curly_re.match(text)
+      if not m:
+        sequence += _symbols_to_sequence(_clean_text(text, cleaner_names))
+        break
+      sequence += _symbols_to_sequence(_clean_text(m.group(1), cleaner_names))
+      sequence += _arpabet_to_sequence(m.group(2))
+      text = m.group(3)
+  else:
+    sequence = _symbols_to_sequence(text.split())
 
   # Append EOS token
   sequence.append(_symbol_to_id['~'])
