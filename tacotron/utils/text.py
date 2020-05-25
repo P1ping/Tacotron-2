@@ -28,7 +28,7 @@ def text_to_sequence(text, cleaner_names):
   '''
 
   # Check for curly braces and treat their contents as ARPAbet:
-  if hparams.symbol_set == 'character':
+  if hparams.symbol_set in ['character', 'english']:
     sequence = []
     while len(text):
       m = _curly_re.match(text)
