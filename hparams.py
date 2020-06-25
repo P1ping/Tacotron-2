@@ -185,8 +185,8 @@ hparams = tf.contrib.training.HParams(
 	# discretized mixture of logistic distributions output, otherwise one-hot
 	# input and softmax output are assumed.
 	#Model general type
-	input_type="raw", #Raw has better quality but harder to train. mulaw-quantize is easier to train but has lower quality.
-	quantize_channels=2**16,  # 65536 (16-bit) (raw) or 256 (8-bit) (mulaw or mulaw-quantize) // number of classes = 256 <=> mu = 255
+	input_type="mulaw-quantize", #Raw has better quality but harder to train. mulaw-quantize is easier to train but has lower quality.
+	quantize_channels=256,  # 65536 (16-bit) (raw) or 256 (8-bit) (mulaw or mulaw-quantize) // number of classes = 256 <=> mu = 255
 	use_bias = True, #Whether to use bias in convolutional layers of the Wavenet
 	legacy = True, #Whether to use legacy mode: Multiply all skip outputs but the first one with sqrt(0.5) (True for more early training stability, especially for large models)
 	residual_legacy = True, #Whether to scale residual blocks outputs by a factor of sqrt(0.5) (True for input variance preservation early in training and better overall stability)
@@ -200,7 +200,7 @@ hparams = tf.contrib.training.HParams(
 
 	#model parameters
 	#To use Gaussian distribution as output distribution instead of mixture of logistics, set "out_channels = 2" instead of "out_channels = 10 * 3". (UNDER TEST)
-	out_channels = 2, #This should be equal to quantize channels when input type is 'mulaw-quantize' else: num_distributions * 3 (prob, mean, log_scale).
+	out_channels = 256, #This should be equal to quantize channels when input type is 'mulaw-quantize' else: num_distributions * 3 (prob, mean, log_scale).
 	layers = 20, #Number of dilated convolutions (Default: Simplified Wavenet of Tacotron-2 paper)
 	stacks = 2, #Number of dilated convolution stacks (Default: Simplified Wavenet of Tacotron-2 paper)
 	residual_channels = 128, #Number of residual block input/output channels.
